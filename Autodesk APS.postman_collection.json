@@ -1,0 +1,1040 @@
+{
+	"info": {
+		"_postman_id": "e5490f8a-eedd-4e28-88db-734d63f8d89f",
+		"name": "Autodesk APS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23243426"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Get 2 Leg Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();\r",
+									"pm.environment.set(\"2Leg Token\", jsonData.access_token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{Client_Secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{Client_Id}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic <BASE64_ENCODED_STRING_FROM_STEP_1>"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "data:read data:write data:create viewables:read bucket:create bucket:delete",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://developer.api.autodesk.com/authentication/v2/token",
+							"protocol": "https",
+							"host": [
+								"developer",
+								"api",
+								"autodesk",
+								"com"
+							],
+							"path": [
+								"authentication",
+								"v2",
+								"token"
+							]
+						},
+						"description": "Generated from cURL: curl -v 'https://developer.api.autodesk.com/authentication/v2/token'  -X 'POST'  -H 'Content-Type: application/x-www-form-urlencoded'  -H 'Accept: application/json'  -H 'Authorization: Basic <BASE64_ENCODED_STRING_FROM_STEP_1>'  -d 'grant_type=client_credentials'  -d 'scope=data:read'\r\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Get 3 Leg Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();\r",
+									"pm.environment.set(\"3Leg Token\", jsonData.access_token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessTokenUrl",
+									"value": "https://developer.api.autodesk.com/authentication/v2/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "https://developer.api.autodesk.com/authentication/v2/authorize",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "user:read",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "{{Client_Secret}}",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "{{Client_Id}}",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "APS 3 Leg",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic RjZEbjh5cGVtMWo4UDZzVXo4SVgzcG1Tc09BOTlHVVQ6QVNOa3c4S3F6MXQwV1hISw=="
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "text"
+								},
+								{
+									"key": "code",
+									"value": "DgK8pixFrHk8N_7tym_EVhDcHnaTV9SR6yoWmOyb",
+									"type": "text"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "http://localhost:8080/oauth/callback/",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://developer.api.autodesk.com/authentication/v2/token",
+							"protocol": "https",
+							"host": [
+								"developer",
+								"api",
+								"autodesk",
+								"com"
+							],
+							"path": [
+								"authentication",
+								"v2",
+								"token"
+							]
+						},
+						"description": "Generated from cURL: curl -v 'https://developer.api.autodesk.com/authentication/v2/token'  -X 'POST'  -H 'Content-Type: application/x-www-form-urlencoded'  -H 'Authorization: Basic RjZEbjh5cGVtMWo4UDZzVXo4SVgzcG1Tc09BOTlHVVQ6QVNOa3c4S3F6MXQwV1hISw=='  -d 'grant_type=authorization_code'  -d 'code=DgK8pixFrHk8N_7tym_EVhDcHnaTV9SR6yoWmOyb'  -d 'redirect_uri=http://localhost:8080/oauth/callback/'\r\n"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Data Management",
+			"item": [
+				{
+					"name": "Get Hubs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{2Leg Token}}"
+							}
+						],
+						"url": {
+							"raw": "https://developer.api.autodesk.com/project/v1/hubs",
+							"protocol": "https",
+							"host": [
+								"developer",
+								"api",
+								"autodesk",
+								"com"
+							],
+							"path": [
+								"project",
+								"v1",
+								"hubs"
+							]
+						},
+						"description": "Generated from cURL: curl -v 'https://developer.api.autodesk.com/project/v1/hubs'  -H 'Authorization: Bearer AuIPTf4KYLTYGVnOHQ0cuolwCW2a'\r\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Projects",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{2Leg Token}}"
+							}
+						],
+						"url": {
+							"raw": "https://developer.api.autodesk.com/project/v1/hubs/:hub_id/projects",
+							"protocol": "https",
+							"host": [
+								"developer",
+								"api",
+								"autodesk",
+								"com"
+							],
+							"path": [
+								"project",
+								"v1",
+								"hubs",
+								":hub_id",
+								"projects"
+							],
+							"variable": [
+								{
+									"key": "hub_id",
+									"value": "{{HubId}}"
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -v 'https://developer.api.autodesk.com/project/v1/hubs/:hub_id/projects'  -H 'Authorization: Bearer AuIPTf4KYLTYGVnOHQ0cuolwCW2a'\r\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Top Folders",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{2Leg Token}}"
+							}
+						],
+						"url": {
+							"raw": "https://developer.api.autodesk.com/project/v1/hubs/:hub_id/projects/:project_id/topFolders",
+							"protocol": "https",
+							"host": [
+								"developer",
+								"api",
+								"autodesk",
+								"com"
+							],
+							"path": [
+								"project",
+								"v1",
+								"hubs",
+								":hub_id",
+								"projects",
+								":project_id",
+								"topFolders"
+							],
+							"variable": [
+								{
+									"key": "hub_id",
+									"value": "{{HubId}}"
+								},
+								{
+									"key": "project_id",
+									"value": "{{ProjectId}}"
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -v 'https://developer.api.autodesk.com/project/v1/hubs/:hub_id/projects/:project_id/topFolders'  -H 'Authorization: Bearer AuIPTf4KYLTYGVnOHQ0cuolwCW2a'\r\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Folder Content",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{2Leg Token}}"
+							}
+						],
+						"url": {
+							"raw": "https://developer.api.autodesk.com/data/v1/projects/:project_id/folders/:folder_id/contents",
+							"protocol": "https",
+							"host": [
+								"developer",
+								"api",
+								"autodesk",
+								"com"
+							],
+							"path": [
+								"data",
+								"v1",
+								"projects",
+								":project_id",
+								"folders",
+								":folder_id",
+								"contents"
+							],
+							"variable": [
+								{
+									"key": "project_id",
+									"value": "{{ProjectId}}"
+								},
+								{
+									"key": "folder_id",
+									"value": "YourFolderId"
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -v 'https://developer.api.autodesk.com/data/v1/projects/:project_id/folders/:folder_id/contents'  -H 'Authorization: Bearer AuIPTf4KYLTYGVnOHQ0cuolwCW2a'\r\n"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Model Derivative",
+			"item": [
+				{
+					"name": "Task 1 - Upload Source File to OSS",
+					"item": [
+						{
+							"name": "Create a Bucket",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code==200){",
+											"    var body = pm.response.json();",
+											"    pm.environment.set(\"ossBucketKey\", body.bucketKey);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{2Leg Token}}"
+									},
+									{
+										"key": "x-ads-region",
+										"value": "US",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"bucketKey\": \"courseeverseaps\",\n\t\"policyKey\": \"transient\"\n}\n"
+								},
+								"url": {
+									"raw": "https://developer.api.autodesk.com/oss/v2/buckets",
+									"protocol": "https",
+									"host": [
+										"developer",
+										"api",
+										"autodesk",
+										"com"
+									],
+									"path": [
+										"oss",
+										"v2",
+										"buckets"
+									]
+								},
+								"description": "[See documentation](https://aps.autodesk.com/en/docs/data/v2/reference/http/buckets-POST/)"
+							},
+							"response": []
+						},
+						{
+							"name": "Obtain Signed URL",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var body = JSON.parse(responseBody);",
+											"pm.environment.set(\"UploadKey\", body.uploadKey);",
+											"pm.environment.set(\"ContentUploadSignedURL\", body.urls[0]);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{2Leg Token}}"
+									}
+								],
+								"url": {
+									"raw": "https://developer.api.autodesk.com/oss/v2/buckets/{{ossBucketKey}}/objects/:ossSourceFileObjectKey/signeds3upload?minutesExpiration=10",
+									"protocol": "https",
+									"host": [
+										"developer",
+										"api",
+										"autodesk",
+										"com"
+									],
+									"path": [
+										"oss",
+										"v2",
+										"buckets",
+										"{{ossBucketKey}}",
+										"objects",
+										":ossSourceFileObjectKey",
+										"signeds3upload"
+									],
+									"query": [
+										{
+											"key": "minutesExpiration",
+											"value": "10"
+										}
+									],
+									"variable": [
+										{
+											"key": "ossSourceFileObjectKey",
+											"value": "Wall.rvt"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Upload the File",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"console.log(pm.request.body.file.src)"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "file",
+									"file": {
+										"src": "wirGMjSXy/Wall.rvt"
+									}
+								},
+								"url": {
+									"raw": "{{ContentUploadSignedURL}}",
+									"host": [
+										"{{ContentUploadSignedURL}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Finalize upload",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var body = JSON.parse(responseBody);",
+											"pm.environment.set(\"t1_ossSourceFileObjectKey\", body.objectKey);",
+											"pm.environment.set(\"t1_ossSourceFileURN\", body.objectId);",
+											"var encoded_urn=btoa(body.objectId);",
+											"pm.environment.set(\"t1_ossEncodedSourceFileURN\", encoded_urn);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{2Leg Token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"uploadKey\":\"{{UploadKey}}\"\n}"
+								},
+								"url": {
+									"raw": "https://developer.api.autodesk.com/oss/v2/buckets/{{ossBucketKey}}/objects/:ossSourceFileObjectKey/signeds3upload",
+									"protocol": "https",
+									"host": [
+										"developer",
+										"api",
+										"autodesk",
+										"com"
+									],
+									"path": [
+										"oss",
+										"v2",
+										"buckets",
+										"{{ossBucketKey}}",
+										"objects",
+										":ossSourceFileObjectKey",
+										"signeds3upload"
+									],
+									"variable": [
+										{
+											"key": "ossSourceFileObjectKey",
+											"value": "Wall.rvt"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Task 2 - Translate Source File",
+					"item": [
+						{
+							"name": "Create a Translation Job",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var body = JSON.parse(responseBody);",
+											"pm.environment.set(\"t1_url_safe_urn_of_source\", body[\"urn\"]);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{2Leg Token}}"
+									},
+									{
+										"key": "x-ads-force-all",
+										"value": "true"
+									},
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"input\": {\n        \"urn\": \"{{t1_ossEncodedSourceFileURN}}\"\n    },\n    \"output\": {\n        \"destination\": {\n            \"region\": \"us\"\n        },\n        \"formats\": [\n            {\n                \"type\": \"ifc\"\n            }\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://developer.api.autodesk.com/modelderivative/v2/designdata/job",
+									"protocol": "https",
+									"host": [
+										"developer",
+										"api",
+										"autodesk",
+										"com"
+									],
+									"path": [
+										"modelderivative",
+										"v2",
+										"designdata",
+										"job"
+									]
+								},
+								"description": "[See documentation](https://aps.autodesk.com/en/docs/model-derivative/v2/reference/http/job-POST/)"
+							},
+							"response": []
+						},
+						{
+							"name": "Check Status of Job",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var body = JSON.parse(responseBody);",
+											"d_data=body[\"derivatives\"];",
+											"",
+											"",
+											"let progress=body[\"progress\"];",
+											"",
+											"if (progress===\"complete\") {",
+											"    let envariable='dv_urn_';",
+											"    let dv_children=d_data[0][\"children\"];",
+											"    ",
+											"        for (var i = 0; i < dv_children.length; i++)",
+											"        {",
+											"            let dv_urn=dv_children[i][\"urn\"];",
+											"            ",
+											"            envariable='dv_urn_'+i;",
+											"            postman.setEnvironmentVariable(envariable, dv_urn);",
+											"        }",
+											"    }"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{2Leg Token}}"
+									}
+								],
+								"url": {
+									"raw": "https://developer.api.autodesk.com/modelderivative/v2/designdata/{{t1_url_safe_urn_of_source}}/manifest",
+									"protocol": "https",
+									"host": [
+										"developer",
+										"api",
+										"autodesk",
+										"com"
+									],
+									"path": [
+										"modelderivative",
+										"v2",
+										"designdata",
+										"{{t1_url_safe_urn_of_source}}",
+										"manifest"
+									]
+								},
+								"description": "[See documentation](https://aps.autodesk.com/en/docs/model-derivative/v2/reference/http/urn-manifest-GET/)"
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Task 3 - Download OBJ File",
+					"item": [
+						{
+							"name": "Obtain Signed Cookie",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var body = JSON.parse(responseBody);",
+											"pm.environment.set(\"ContentDownloadSignedURL\", body.url);",
+											"var responseHeader = pm.response.headers.all()",
+											"var j=1;",
+											"for (let i=0; responseHeader.length, i < responseHeader.length; i++){",
+											"    console.log(responseHeader[i].key);",
+											"    if (responseHeader[i].key==\"set-cookie\"){",
+											"        let envariable='set-cookie-header_'+ j++;",
+											"        pm.collectionVariables.set(envariable, responseHeader[i].value);",
+											"    } ",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{2Leg Token}}"
+									},
+									{
+										"key": "cookie",
+										"value": "{{",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "https://developer.api.autodesk.com/modelderivative/v2/designdata/{{t1_url_safe_urn_of_source}}/manifest/{{dv_urn_0}}/signedcookies",
+									"protocol": "https",
+									"host": [
+										"developer",
+										"api",
+										"autodesk",
+										"com"
+									],
+									"path": [
+										"modelderivative",
+										"v2",
+										"designdata",
+										"{{t1_url_safe_urn_of_source}}",
+										"manifest",
+										"{{dv_urn_0}}",
+										"signedcookies"
+									]
+								},
+								"description": "[See documentation](https://aps.autodesk.com/en/docs/model-derivative/v2/reference/http/urn-manifest-derivativeurn-GET/)"
+							},
+							"response": []
+						},
+						{
+							"name": "Download IFC File",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "{{set-cookie-header_1}};{{set-cookie-header_2}};{{set-cookie-header_3}}",
+										"description": "CloudFront-Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vY2RuLmRlcml2YXRpdmUuYXV0b2Rlc2suY29tL2RYSnVPbUZrYzJzdWIySnFaV04wY3pwdmN5NXZZbXBsWTNRNmFuQXRNakF5TWkwd05TMHhOeTlDYjNndWFYQjAvb3V0cHV0L2ZlYzEwMTQ0LTgxYjYtNGNmZi05NmRmLTdhOTgwNDkxNmQyNS9Cb3gub2JqIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNjUyODc4MDM3fX19XX0_; Path=/; Domain=cdn.derivative.autodesk.com; HTTPOnly"
+									}
+								],
+								"url": {
+									"raw": "{{ContentDownloadSignedURL}}",
+									"host": [
+										"{{ContentDownloadSignedURL}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Extras",
+			"item": [
+				{
+					"name": "Get Bucket Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{2Leg Token}}"
+							}
+						],
+						"url": {
+							"raw": "https://developer.api.autodesk.com/oss/v2/buckets/{{ossBucketKey}}/details",
+							"protocol": "https",
+							"host": [
+								"developer",
+								"api",
+								"autodesk",
+								"com"
+							],
+							"path": [
+								"oss",
+								"v2",
+								"buckets",
+								"{{ossBucketKey}}",
+								"details"
+							]
+						},
+						"description": "[See documentation](https://aps.autodesk.com/en/docs/data/v2/reference/http/buckets-:bucketKey-details-GET/)"
+					},
+					"response": []
+				},
+				{
+					"name": "List Objects in  Bucket",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{2Leg Token}}"
+							}
+						],
+						"url": {
+							"raw": "https://developer.api.autodesk.com/oss/v2/buckets/{{ossBucketKey}}/objects",
+							"protocol": "https",
+							"host": [
+								"developer",
+								"api",
+								"autodesk",
+								"com"
+							],
+							"path": [
+								"oss",
+								"v2",
+								"buckets",
+								"{{ossBucketKey}}",
+								"objects"
+							]
+						},
+						"description": "[See documentation](https://aps.autodesk.com/en/docs/data/v2/reference/http/buckets-:bucketKey-objects-GET/)"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Manifest",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "https://developer.api.autodesk.com/modelderivative/v2/designdata/{{t1_ossEncodedSourceFileURN}}/manifest",
+							"protocol": "https",
+							"host": [
+								"developer",
+								"api",
+								"autodesk",
+								"com"
+							],
+							"path": [
+								"modelderivative",
+								"v2",
+								"designdata",
+								"{{t1_ossEncodedSourceFileURN}}",
+								"manifest"
+							]
+						},
+						"description": "[See documentation](https://aps.autodesk.com/en/docs/model-derivative/v2/reference/http/urn-manifest-DELETE/)"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete OSS Bucket",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://developer.api.autodesk.com/oss/v2/buckets/{{ossBucketKey}}",
+							"protocol": "https",
+							"host": [
+								"developer",
+								"api",
+								"autodesk",
+								"com"
+							],
+							"path": [
+								"oss",
+								"v2",
+								"buckets",
+								"{{ossBucketKey}}"
+							]
+						},
+						"description": "[See documentation](https://aps.autodesk.com/en/docs/data/v2/reference/http/buckets-:bucketKey-DELETE/)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Supported Formats",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{2Leg Token}}"
+							}
+						],
+						"url": {
+							"raw": "https://developer.api.autodesk.com/modelderivative/v2/designdata/formats",
+							"protocol": "https",
+							"host": [
+								"developer",
+								"api",
+								"autodesk",
+								"com"
+							],
+							"path": [
+								"modelderivative",
+								"v2",
+								"designdata",
+								"formats"
+							]
+						},
+						"description": "[See documentation](https://aps.autodesk.com/en/docs/model-derivative/v2/reference/http/formats-GET/)"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "set-cookie-header_1",
+			"value": ""
+		},
+		{
+			"key": "set-cookie-header_2",
+			"value": ""
+		},
+		{
+			"key": "set-cookie-header_3",
+			"value": ""
+		}
+	]
+}
