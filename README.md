@@ -8,7 +8,7 @@
 This is a Postman Collection for the Introduction to APS Course
 
 # How to access the course
-Are you an Architect or an engineer and you want to learn how to code? Access Global Etraining [Here](https://www.globaletraining.ca/) and look for our course!
+Are you an Architect or an engineer and you want to learn how to code? Access Global Etraining [Here]([https://www.globaletraining.ca/](https://www.globaletraining.ca/course-library/introduction-to-autodesk-aps/)) and look for our course!
 
 
 ## Contributors
