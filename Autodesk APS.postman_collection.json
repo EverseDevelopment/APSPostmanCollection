@@ -20,7 +20,8 @@
 									"pm.environment.set(\"2Leg Token\", jsonData.access_token);"
 								],
 								"type": "text/javascript",
-								"packages": {}
+								"packages": {},
+								"requests": {}
 							}
 						}
 					],
@@ -52,7 +53,7 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Basic <BASE64_ENCODED_STRING_FROM_STEP_1>"
+								"value": "Basic <ClientId:ClientSecret>"
 							}
 						],
 						"body": {
@@ -344,7 +345,83 @@
 								},
 								{
 									"key": "folder_id",
-									"value": "YourFolderId"
+									"value": "{{FolderId}}"
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -v 'https://developer.api.autodesk.com/data/v1/projects/:project_id/folders/:folder_id/contents'  -H 'Authorization: Bearer AuIPTf4KYLTYGVnOHQ0cuolwCW2a'\r\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Item",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{2Leg Token}}"
+							}
+						],
+						"url": {
+							"raw": "https://developer.api.autodesk.com/data/v1/projects/{{ProjectId}}/items/:itemId",
+							"protocol": "https",
+							"host": [
+								"developer",
+								"api",
+								"autodesk",
+								"com"
+							],
+							"path": [
+								"data",
+								"v1",
+								"projects",
+								"{{ProjectId}}",
+								"items",
+								":itemId"
+							],
+							"variable": [
+								{
+									"key": "itemId",
+									"value": "{{ItemId}}"
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -v 'https://developer.api.autodesk.com/data/v1/projects/:project_id/folders/:folder_id/contents'  -H 'Authorization: Bearer AuIPTf4KYLTYGVnOHQ0cuolwCW2a'\r\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Download Item",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{2Leg Token}}"
+							}
+						],
+						"url": {
+							"raw": "https://developer.api.autodesk.com/data/v1/projects/{{ProjectId}}/items/:itemId",
+							"protocol": "https",
+							"host": [
+								"developer",
+								"api",
+								"autodesk",
+								"com"
+							],
+							"path": [
+								"data",
+								"v1",
+								"projects",
+								"{{ProjectId}}",
+								"items",
+								":itemId"
+							],
+							"variable": [
+								{
+									"key": "itemId",
+									"value": "{{ItemId}}"
 								}
 							]
 						},
@@ -373,7 +450,8 @@
 											"}"
 										],
 										"type": "text/javascript",
-										"packages": {}
+										"packages": {},
+										"requests": {}
 									}
 								}
 							],
@@ -396,7 +474,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"bucketKey\": \"courseeverseaps\",\n\t\"policyKey\": \"transient\"\n}\n"
+									"raw": "{\n\t\"bucketKey\": \"NewBucketName\",\n\t\"policyKey\": \"transient\"\n}\n"
 								},
 								"url": {
 									"raw": "https://developer.api.autodesk.com/oss/v2/buckets",
@@ -429,7 +507,8 @@
 											"pm.environment.set(\"ContentUploadSignedURL\", body.urls[0]);"
 										],
 										"type": "text/javascript",
-										"packages": {}
+										"packages": {},
+										"requests": {}
 									}
 								}
 							],
@@ -471,7 +550,7 @@
 									"variable": [
 										{
 											"key": "ossSourceFileObjectKey",
-											"value": "Wall.rvt"
+											"value": "RevitFileName.rvt"
 										}
 									]
 								}
@@ -524,7 +603,8 @@
 											"pm.environment.set(\"t1_ossEncodedSourceFileURN\", encoded_urn);"
 										],
 										"type": "text/javascript",
-										"packages": {}
+										"packages": {},
+										"requests": {}
 									}
 								}
 							],
@@ -568,7 +648,7 @@
 									"variable": [
 										{
 											"key": "ossSourceFileObjectKey",
-											"value": "Wall.rvt"
+											"value": "RevitFileName.rvt"
 										}
 									]
 								}
@@ -1019,6 +1099,1468 @@
 						"description": "[See documentation](https://aps.autodesk.com/en/docs/model-derivative/v2/reference/http/formats-GET/)"
 					},
 					"response": []
+				}
+			]
+		},
+		{
+			"name": "Automation",
+			"item": [
+				{
+					"name": "Nickname",
+					"item": [
+						{
+							"name": "MatchNickname",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Get the request body\r",
+											"let requestBody = pm.request.body;\r",
+											"\r",
+											"// Check if body exists and is in raw mode\r",
+											"if (requestBody && requestBody.mode === 'raw') {\r",
+											"    try {\r",
+											"        // Parse the JSON body\r",
+											"        let bodyJson = JSON.parse(requestBody.raw);\r",
+											"        \r",
+											"        // Extract the nickname value\r",
+											"        if (bodyJson.nickname) {\r",
+											"            // Set the nickname as an environment variable\r",
+											"            pm.environment.set(\"ClientIdNickname\", bodyJson.nickname);\r",
+											"            \r",
+											"            console.log(\"Nickname extracted and set to environment variable:\");\r",
+											"            console.log(\"ClientIdNickname =\", bodyJson.nickname);\r",
+											"        } else {\r",
+											"            console.log(\"Nickname not found in request body\");\r",
+											"        }\r",
+											"    } catch (error) {\r",
+											"        console.log(\"Error parsing request body JSON:\", error);\r",
+											"    }\r",
+											"} else {\r",
+											"    console.log(\"Request body is not in raw mode or doesn't exist\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{2Leg Token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": " {\"nickname\": \"<ForgeAppNickname>\"}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://developer.api.autodesk.com/da/us-east/v3/forgeapps/me",
+									"protocol": "https",
+									"host": [
+										"developer",
+										"api",
+										"autodesk",
+										"com"
+									],
+									"path": [
+										"da",
+										"us-east",
+										"v3",
+										"forgeapps",
+										"me"
+									]
+								},
+								"description": "Generated from cURL: curl -X PATCH  'https://developer.api.autodesk.com/da/us-east/v3/forgeapps/me'  -H 'Authorization: Bearer <YOUR_ACCESS_TOKEN>'  -H 'Content-Type: application/json'  -d ' {\"nickname\": \"<YOUR_NICKNAME>\"}'\r\n"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "App Bundle",
+					"item": [
+						{
+							"name": "Register the App Bundle",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Script para el Test tab de Postman\r",
+											"// Extrae variables de la respuesta y las configura automáticamente\r",
+											"\r",
+											"pm.test(\"Respuesta exitosa\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Respuesta contiene uploadParameters\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property('uploadParameters');\r",
+											"    pm.expect(jsonData.uploadParameters).to.have.property('formData');\r",
+											"});\r",
+											"\r",
+											"// Solo procesar si la respuesta es exitosa\r",
+											"if (pm.response.code === 200) {\r",
+											"    try {\r",
+											"        const responseData = pm.response.json();\r",
+											"        \r",
+											"        console.log(\"🔄 Extrayendo variables de la respuesta...\");\r",
+											"        \r",
+											"        // Verificar estructura de la respuesta\r",
+											"        if (responseData.uploadParameters && responseData.uploadParameters.formData) {\r",
+											"            const formData = responseData.uploadParameters.formData;\r",
+											"            \r",
+											"            // Mapeo de variables con sus nombres en el environment\r",
+											"            const variableMapping = {\r",
+											"                \"BundleKey\": formData.key,\r",
+											"                \"BundlePolicy\": formData.policy,\r",
+											"                \"Policyx-amz-signature\": formData[\"x-amz-signature\"],\r",
+											"                \"Policyx-amz-credential\": formData[\"x-amz-credential\"],\r",
+											"                \"Policyx-amz-algorithm\": formData[\"x-amz-algorithm\"],\r",
+											"                \"Policyx-amz-date\": formData[\"x-amz-date\"],\r",
+											"                \"Policyx-amz-server-side-encryption\": formData[\"x-amz-server-side-encryption\"],\r",
+											"                \"Policyx-amz-security-token\": formData[\"x-amz-security-token\"]\r",
+											"            };\r",
+											"            \r",
+											"            // Configurar variables en el environment\r",
+											"            let successCount = 0;\r",
+											"            let totalCount = Object.keys(variableMapping).length;\r",
+											"            \r",
+											"            for (let [envVarName, value] of Object.entries(variableMapping)) {\r",
+											"                if (value && value !== null && value !== undefined) {\r",
+											"                    pm.environment.set(envVarName, value);\r",
+											"                    successCount++;\r",
+											"                    \r",
+											"                    // Log truncado para seguridad\r",
+											"                    let displayValue = value.toString();\r",
+											"                    if (displayValue.length > 50) {\r",
+											"                        displayValue = displayValue.substring(0, 47) + \"...\";\r",
+											"                    }\r",
+											"                    console.log(`✅ ${envVarName}: ${displayValue}`);\r",
+											"                } else {\r",
+											"                    console.warn(`⚠️  ${envVarName}: valor no encontrado`);\r",
+											"                }\r",
+											"            }\r",
+											"            \r",
+											"            // Variables adicionales útiles\r",
+											"            const additionalVars = {\r",
+											"                \"AppBundle_ID\": responseData.id,\r",
+											"                \"AppBundle_Engine\": responseData.engine,\r",
+											"                \"AppBundle_Version\": responseData.version,\r",
+											"                \"AppBundle_Description\": responseData.description,\r",
+											"                \"S3_EndpointURL\": responseData.uploadParameters.endpointURL,\r",
+											"                \"S3_ContentType\": formData[\"content-type\"],\r",
+											"                \"S3_SuccessActionStatus\": formData[\"success_action_status\"]\r",
+											"            };\r",
+											"            \r",
+											"            console.log(\"\\n📋 Variables adicionales:\");\r",
+											"            for (let [envVarName, value] of Object.entries(additionalVars)) {\r",
+											"                if (value && value !== null && value !== undefined) {\r",
+											"                    pm.environment.set(envVarName, value);\r",
+											"                    console.log(`✅ ${envVarName}: ${value}`);\r",
+											"                }\r",
+											"            }\r",
+											"            \r",
+											"            // Test dinámico para verificar que las variables se configuraron\r",
+											"            pm.test(`Variables configuradas correctamente (${successCount}/${totalCount})`, function () {\r",
+											"                pm.expect(successCount).to.equal(totalCount);\r",
+											"            });\r",
+											"            \r",
+											"            // Configurar timestamp de cuando se obtuvieron las variables\r",
+											"            const timestamp = new Date().toISOString();\r",
+											"            pm.environment.set(\"Variables_LastUpdate\", timestamp);\r",
+											"            \r",
+											"            console.log(`\\n🎉 Proceso completado exitosamente!`);\r",
+											"            console.log(`📅 Última actualización: ${timestamp}`);\r",
+											"            console.log(\"📌 Las variables están disponibles para usar en otros requests\");\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error(\"❌ Error: La respuesta no tiene la estructura esperada\");\r",
+											"            pm.test(\"Estructura de respuesta válida\", function () {\r",
+											"                pm.expect.fail(\"La respuesta no contiene uploadParameters.formData\");\r",
+											"            });\r",
+											"        }\r",
+											"        \r",
+											"    } catch (error) {\r",
+											"        console.error(\"❌ Error al procesar la respuesta:\", error);\r",
+											"        pm.test(\"Procesamiento de respuesta exitoso\", function () {\r",
+											"            pm.expect.fail(\"Error al procesar la respuesta JSON\");\r",
+											"        });\r",
+											"    }\r",
+											"} else {\r",
+											"    console.error(`❌ Respuesta no exitosa: ${pm.response.code} ${pm.response.status()}`);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Pre-request Script para Postman\r",
+											"// Este script se ejecuta ANTES de enviar la petición\r",
+											"\r",
+											"// Obtener el body de la petición actual\r",
+											"const requestBody = JSON.parse(pm.request.body.raw);\r",
+											"\r",
+											"// Extraer el ID del body\r",
+											"const bundleAppId = requestBody.id;\r",
+											"\r",
+											"// Guardar el ID en la variable de entorno \"BundleAppName\"\r",
+											"pm.environment.set(\"BundleAppName\", bundleAppId);\r",
+											"\r",
+											"// Opcional: Log para verificar que se guardó correctamente\r",
+											"console.log(\"BundleAppName guardado en environment:\", bundleAppId);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{2Leg Token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"<BundleName>\",\r\n  \"engine\": \"Autodesk.Revit+2024\",\r\n  \"description\": \"<Bundle Description>\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://developer.api.autodesk.com/da/us-east/v3/appbundles",
+									"protocol": "https",
+									"host": [
+										"developer",
+										"api",
+										"autodesk",
+										"com"
+									],
+									"path": [
+										"da",
+										"us-east",
+										"v3",
+										"appbundles"
+									]
+								},
+								"description": "Generated from cURL: curl -X POST \\\r\n  'https://developer.api.autodesk.com/da/us-east/v3/appbundles' \\\r\n  -H 'Authorization: Bearer <YOUR_ACCESS_TOKEN>' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"id\": \"DeleteWallsApp\",\r\n  \"engine\": \"Autodesk.Revit+2024\",\r\n  \"description\": \"Delete Walls AppBundle based on Revit 2024\"\r\n}'"
+							},
+							"response": []
+						},
+						{
+							"name": "Upload the Bundle",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cache-Control",
+										"value": "no-cache"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "key",
+											"value": "{{BundleKey}}",
+											"type": "text"
+										},
+										{
+											"key": "content-type",
+											"value": "application/octet-stream",
+											"type": "text"
+										},
+										{
+											"key": "policy",
+											"value": "{{BundlePolicy}}",
+											"type": "text"
+										},
+										{
+											"key": "success_action_status",
+											"value": "200",
+											"type": "text"
+										},
+										{
+											"key": "success_action_redirect",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "x-amz-signature",
+											"value": "{{Policyx-amz-signature}}",
+											"type": "text"
+										},
+										{
+											"key": "x-amz-credential",
+											"value": "{{Policyx-amz-credential}}",
+											"type": "text"
+										},
+										{
+											"key": "x-amz-algorithm",
+											"value": "{{Policyx-amz-algorithm}}",
+											"type": "text"
+										},
+										{
+											"key": "x-amz-date",
+											"value": "{{Policyx-amz-date}}",
+											"type": "text"
+										},
+										{
+											"key": "x-amz-server-side-encryption",
+											"value": "{{Policyx-amz-server-side-encryption}}",
+											"type": "text"
+										},
+										{
+											"key": "x-amz-security-token",
+											"value": "{{Policyx-amz-security-token}}",
+											"type": "text"
+										},
+										{
+											"key": "file",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": {
+									"raw": "https://dasprod-store.s3.amazonaws.com",
+									"protocol": "https",
+									"host": [
+										"dasprod-store",
+										"s3",
+										"amazonaws",
+										"com"
+									]
+								},
+								"description": "Generated from cURL: curl -X POST  'https://dasprod-store.s3.amazonaws.com'  -H 'Cache-Control: no-cache'  -F 'key=apps/Revit/DeleteWallsApp/1'  -F 'content-type=application/octet-stream'  -F 'policy=eyJleHBpcmF0aW9uIjoiMjAxOC... (truncated)'  -F 'success_action_status=\"200\"'  -F 'success_action_redirect='  -F 'x-amz-signature=6c68268e23ecb8452... (truncated)'  -F 'x-amz-credential=ASIAQ2W... (truncated)'  -F 'x-amz-algorithm=AWS4-HMAC-SHA256'  -F 'x-amz-date=20180810... (truncated)'  -F 'x-amz-server-side-encryption=AES256'  -F 'x-amz-security-token=FQoGZXIvYXdzEPj//////////wEaDHavu... (truncated)'  -F 'file=@path/to/your/app/zip'\r\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Create Alias for AppBundle",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Test script to run after the request\r",
+											"pm.test(\"Response status is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains id field\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property('id');\r",
+											"});\r",
+											"\r",
+											"// Extract the id from response and set it as environment variable\r",
+											"if (pm.response.code === 200) {\r",
+											"    const responseJson = pm.response.json();\r",
+											"    const appBundleAlias = responseJson.id;\r",
+											"    \r",
+											"    // Set the environment variable\r",
+											"    pm.environment.set(\"AppBundleAlias\", appBundleAlias);\r",
+											"    \r",
+											"    console.log(\"AppBundleAlias set to: \" + appBundleAlias);\r",
+											"} else {\r",
+											"    console.log(\"Request failed with status: \" + pm.response.code);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{2Leg Token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n      \"version\": {{AppBundle_Version}},\r\n      \"id\": \"<Your Alias App Bundle>\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://developer.api.autodesk.com/da/us-east/v3/appbundles/{{BundleAppName}}/aliases",
+									"protocol": "https",
+									"host": [
+										"developer",
+										"api",
+										"autodesk",
+										"com"
+									],
+									"path": [
+										"da",
+										"us-east",
+										"v3",
+										"appbundles",
+										"{{BundleAppName}}",
+										"aliases"
+									]
+								},
+								"description": "Generated from cURL: curl -X POST  'https://developer.api.autodesk.com/da/us-east/v3/appbundles/DeleteWallsApp/aliases'  -H 'Content-Type: application/json'  -H 'Authorization: Bearer <YOUR_ACCESS_TOKEN>'  -d '{\r\n      \"version\": 1,\r\n      \"id\": \"test\"\r\n    }'\r\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Update Existing App Bundle",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Script para el Test tab de Postman\r",
+											"// Extrae variables de la respuesta y las configura automáticamente\r",
+											"\r",
+											"pm.test(\"Respuesta exitosa\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Respuesta contiene uploadParameters\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property('uploadParameters');\r",
+											"    pm.expect(jsonData.uploadParameters).to.have.property('formData');\r",
+											"});\r",
+											"\r",
+											"// Solo procesar si la respuesta es exitosa\r",
+											"if (pm.response.code === 200) {\r",
+											"    try {\r",
+											"        const responseData = pm.response.json();\r",
+											"        \r",
+											"        console.log(\"🔄 Extrayendo variables de la respuesta...\");\r",
+											"        \r",
+											"        // Verificar estructura de la respuesta\r",
+											"        if (responseData.uploadParameters && responseData.uploadParameters.formData) {\r",
+											"            const formData = responseData.uploadParameters.formData;\r",
+											"            \r",
+											"            // Mapeo de variables con sus nombres en el environment\r",
+											"            const variableMapping = {\r",
+											"                \"BundleKey\": formData.key,\r",
+											"                \"BundlePolicy\": formData.policy,\r",
+											"                \"Policyx-amz-signature\": formData[\"x-amz-signature\"],\r",
+											"                \"Policyx-amz-credential\": formData[\"x-amz-credential\"],\r",
+											"                \"Policyx-amz-algorithm\": formData[\"x-amz-algorithm\"],\r",
+											"                \"Policyx-amz-date\": formData[\"x-amz-date\"],\r",
+											"                \"Policyx-amz-server-side-encryption\": formData[\"x-amz-server-side-encryption\"],\r",
+											"                \"Policyx-amz-security-token\": formData[\"x-amz-security-token\"]\r",
+											"            };\r",
+											"            \r",
+											"            // Configurar variables en el environment\r",
+											"            let successCount = 0;\r",
+											"            let totalCount = Object.keys(variableMapping).length;\r",
+											"            \r",
+											"            for (let [envVarName, value] of Object.entries(variableMapping)) {\r",
+											"                if (value && value !== null && value !== undefined) {\r",
+											"                    pm.environment.set(envVarName, value);\r",
+											"                    successCount++;\r",
+											"                    \r",
+											"                    // Log truncado para seguridad\r",
+											"                    let displayValue = value.toString();\r",
+											"                    if (displayValue.length > 50) {\r",
+											"                        displayValue = displayValue.substring(0, 47) + \"...\";\r",
+											"                    }\r",
+											"                    console.log(`✅ ${envVarName}: ${displayValue}`);\r",
+											"                } else {\r",
+											"                    console.warn(`⚠️  ${envVarName}: valor no encontrado`);\r",
+											"                }\r",
+											"            }\r",
+											"            \r",
+											"            // Variables adicionales útiles\r",
+											"            const additionalVars = {\r",
+											"                \"AppBundle_ID\": responseData.id,\r",
+											"                \"AppBundle_Engine\": responseData.engine,\r",
+											"                \"AppBundle_Version\": responseData.version,\r",
+											"                \"AppBundle_Description\": responseData.description,\r",
+											"                \"S3_EndpointURL\": responseData.uploadParameters.endpointURL,\r",
+											"                \"S3_ContentType\": formData[\"content-type\"],\r",
+											"                \"S3_SuccessActionStatus\": formData[\"success_action_status\"]\r",
+											"            };\r",
+											"            \r",
+											"            console.log(\"\\n📋 Variables adicionales:\");\r",
+											"            for (let [envVarName, value] of Object.entries(additionalVars)) {\r",
+											"                if (value && value !== null && value !== undefined) {\r",
+											"                    pm.environment.set(envVarName, value);\r",
+											"                    console.log(`✅ ${envVarName}: ${value}`);\r",
+											"                }\r",
+											"            }\r",
+											"            \r",
+											"            // Test dinámico para verificar que las variables se configuraron\r",
+											"            pm.test(`Variables configuradas correctamente (${successCount}/${totalCount})`, function () {\r",
+											"                pm.expect(successCount).to.equal(totalCount);\r",
+											"            });\r",
+											"            \r",
+											"            // Configurar timestamp de cuando se obtuvieron las variables\r",
+											"            const timestamp = new Date().toISOString();\r",
+											"            pm.environment.set(\"Variables_LastUpdate\", timestamp);\r",
+											"            \r",
+											"            console.log(`\\n🎉 Proceso completado exitosamente!`);\r",
+											"            console.log(`📅 Última actualización: ${timestamp}`);\r",
+											"            console.log(\"📌 Las variables están disponibles para usar en otros requests\");\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error(\"❌ Error: La respuesta no tiene la estructura esperada\");\r",
+											"            pm.test(\"Estructura de respuesta válida\", function () {\r",
+											"                pm.expect.fail(\"La respuesta no contiene uploadParameters.formData\");\r",
+											"            });\r",
+											"        }\r",
+											"        \r",
+											"    } catch (error) {\r",
+											"        console.error(\"❌ Error al procesar la respuesta:\", error);\r",
+											"        pm.test(\"Procesamiento de respuesta exitoso\", function () {\r",
+											"            pm.expect.fail(\"Error al procesar la respuesta JSON\");\r",
+											"        });\r",
+											"    }\r",
+											"} else {\r",
+											"    console.error(`❌ Respuesta no exitosa: ${pm.response.code} ${pm.response.status()}`);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{2Leg Token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n      \"id\": null,\r\n      \"engine\": \"Autodesk.Revit+2024\",\r\n      \"description\": \"<Your Description>\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://developer.api.autodesk.com/da/us-east/v3/appbundles/{{BundleAppName}}/versions",
+									"protocol": "https",
+									"host": [
+										"developer",
+										"api",
+										"autodesk",
+										"com"
+									],
+									"path": [
+										"da",
+										"us-east",
+										"v3",
+										"appbundles",
+										"{{BundleAppName}}",
+										"versions"
+									]
+								},
+								"description": "Generated from cURL: curl -X POST \\\r\n  'https://developer.api.autodesk.com/da/us-east/v3/appbundles/DeleteWallsApp/versions'\\\r\n  -H 'Content-Type: application/json' \\\r\n  -H 'Authorization: Bearer <YOUR_ACCESS_TOKEN>' \\\r\n  -d '{\r\n      \"id\": null,\r\n      \"engine\": \"Autodesk.Revit+2024\",\r\n      \"description\": \"Delete Walls AppBundle based on Revit 2024\"\r\n    }'"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Activity",
+					"item": [
+						{
+							"name": "Create a New Activity",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Check if request body exists and has the 'id' field\r",
+											"if (pm.request.body && pm.request.body.raw) {\r",
+											"    try {\r",
+											"        // Parse the request body JSON\r",
+											"        const requestBody = JSON.parse(pm.request.body.raw);\r",
+											"        \r",
+											"        // Check if 'id' exists in the parsed body\r",
+											"        if (requestBody.id) {\r",
+											"            // Set the environment variable 'ActivityName' with the value of 'id'\r",
+											"            pm.environment.set(\"ActivityName\", requestBody.id);\r",
+											"            console.log(\"ActivityName set to:\", requestBody.id);\r",
+											"        } else {\r",
+											"            console.log(\"The 'id' field does not exist in the request body\");\r",
+											"        }\r",
+											"    } catch (error) {\r",
+											"        console.log(\"Error parsing request body JSON:\", error.message);\r",
+											"    }\r",
+											"} else {\r",
+											"    console.log(\"No request body found or body is not in raw format\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Check if response body exists\r",
+											"if (pm.response.text()) {\r",
+											"    try {\r",
+											"        // Parse the response body JSON\r",
+											"        const responseBody = pm.response.json();\r",
+											"        \r",
+											"        // Check if 'version' exists in the response\r",
+											"        if (responseBody.version !== undefined) {\r",
+											"            // Set the environment variable 'ActivityVersion' with the value of 'version'\r",
+											"            pm.environment.set(\"ActivityVersion\", responseBody.version);\r",
+											"            console.log(\"ActivityVersion set to:\", responseBody.version);\r",
+											"        } else {\r",
+											"            console.log(\"The 'version' field does not exist in the response body\");\r",
+											"        }\r",
+											"    } catch (error) {\r",
+											"        console.log(\"Error parsing response body JSON:\", error.message);\r",
+											"    }\r",
+											"} else {\r",
+											"    console.log(\"No response body found\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{2Leg Token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n            \"id\": \"<Your Activity Name>\",\r\n            \"commandLine\": [ \"$(engine.path)\\\\\\\\revitcoreconsole.exe /i \\\"$(args[rvtFile].path)\\\" /al \\\"$(appbundles[{{BundleAppName}}].path)\\\"\" ],\r\n            \"parameters\": {\r\n              \"rvtFile\": {\r\n                \"zip\": false,\r\n                \"ondemand\": false,\r\n                \"verb\": \"get\",\r\n                \"description\": \"Input Revit model\",\r\n                \"required\": true,\r\n                \"localName\": \"<RevitFileName>.rvt\"\r\n              },\r\n              \"result\": {\r\n                \"zip\": false,\r\n                \"ondemand\": false,\r\n                \"verb\": \"put\",\r\n                \"description\": \"Results\",\r\n                \"required\": true,\r\n                \"localName\": \"result.rvt\"\r\n              }\r\n            },\r\n            \"engine\": \"Autodesk.Revit+2024\",\r\n            \"appbundles\": [ \"{{ClientIdNickname}}.{{BundleAppName}}+{{AppBundleAlias}}\" ],\r\n            \"description\": \"Deletes windows from Revit file.\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://developer.api.autodesk.com/da/us-east/v3/activities",
+									"protocol": "https",
+									"host": [
+										"developer",
+										"api",
+										"autodesk",
+										"com"
+									],
+									"path": [
+										"da",
+										"us-east",
+										"v3",
+										"activities"
+									]
+								},
+								"description": "Generated from cURL: curl -X POST  'https://developer.api.autodesk.com/da/us-east/v3/activities'  -H 'Content-Type: application/json'  -H 'Authorization: Bearer <YOUR_ACCESS_TOKEN>'  -d '{\r\n            \"id\": \"DeleteWallsActivity\",\r\n            \"commandLine\": [ \"$(engine.path)\\\\\\\\revitcoreconsole.exe /i \\\"$(args[rvtFile].path)\\\" /al \\\"$(appbundles[DeleteWallsApp].path)\\\"\" ],\r\n            \"parameters\": {\r\n              \"rvtFile\": {\r\n                \"zip\": false,\r\n                \"ondemand\": false,\r\n                \"verb\": \"get\",\r\n                \"description\": \"Input Revit model\",\r\n                \"required\": true,\r\n                \"localName\": \"$(rvtFile)\"\r\n              },\r\n              \"result\": {\r\n                \"zip\": false,\r\n                \"ondemand\": false,\r\n                \"verb\": \"put\",\r\n                \"description\": \"Results\",\r\n                \"required\": true,\r\n                \"localName\": \"result.rvt\"\r\n              }\r\n            },\r\n            \"engine\": \"Autodesk.Revit+2024\",\r\n            \"appbundles\": [ \"<YOUR_NICKNAME>.DeleteWallsApp+test\" ],\r\n            \"description\": \"Deletes walls from Revit file.\"\r\n    }'\r\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Create an Alias for the activity",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Check if response body exists\r",
+											"if (pm.response.text()) {\r",
+											"    try {\r",
+											"        // Parse the response body JSON\r",
+											"        const responseBody = pm.response.json();\r",
+											"        \r",
+											"        // Check if 'id' exists in the response\r",
+											"        if (responseBody.id) {\r",
+											"            // Set the environment variable 'ActivityAlias' with the value of 'id'\r",
+											"            pm.environment.set(\"ActivityAlias\", responseBody.id);\r",
+											"            console.log(\"ActivityAlias set to:\", responseBody.id);\r",
+											"        } else {\r",
+											"            console.log(\"The 'id' field does not exist in the response body\");\r",
+											"        }\r",
+											"    } catch (error) {\r",
+											"        console.log(\"Error parsing response body JSON:\", error.message);\r",
+											"    }\r",
+											"} else {\r",
+											"    console.log(\"No response body found\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{2Leg Token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n      \"version\": {{ActivityVersion}},\r\n      \"id\": \"<Your Activity Alias>\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://developer.api.autodesk.com/da/us-east/v3/activities/{{ActivityName}}/aliases",
+									"protocol": "https",
+									"host": [
+										"developer",
+										"api",
+										"autodesk",
+										"com"
+									],
+									"path": [
+										"da",
+										"us-east",
+										"v3",
+										"activities",
+										"{{ActivityName}}",
+										"aliases"
+									]
+								},
+								"description": "Generated from cURL: curl -X POST  'https://developer.api.autodesk.com/da/us-east/v3/activities/DeleteWallsActivity/aliases'  -H 'Content-Type: application/json'  -H 'Authorization: Bearer <YOUR_ACCESS_TOKEN>'  -d '{\r\n      \"version\": 1,\r\n      \"id\": \"test\"\r\n    }'\r\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Update Existing Activity",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Check if response body exists\r",
+											"if (pm.response.text()) {\r",
+											"    try {\r",
+											"        // Parse the response body JSON\r",
+											"        const responseBody = pm.response.json();\r",
+											"        \r",
+											"        // Check if 'version' exists in the response\r",
+											"        if (responseBody.version !== undefined) {\r",
+											"            // Set the environment variable 'ActivityVersion' with the value of 'version'\r",
+											"            pm.environment.set(\"ActivityVersion\", responseBody.version);\r",
+											"            console.log(\"ActivityVersion set to:\", responseBody.version);\r",
+											"        } else {\r",
+											"            console.log(\"The 'version' field does not exist in the response body\");\r",
+											"        }\r",
+											"    } catch (error) {\r",
+											"        console.log(\"Error parsing response body JSON:\", error.message);\r",
+											"    }\r",
+											"} else {\r",
+											"    console.log(\"No response body found\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{2Leg Token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \"id\": null,\r\n        \"commandLine\": [ \"$(engine.path)\\\\\\\\revitcoreconsole.exe /i \\\"$(args[rvtFile].path)\\\" /al \\\"$(appbundles[{{BundleAppName}}].path)\\\"\" ],\r\n        \"parameters\": {\r\n          \"rvtFile\": {\r\n            \"verb\": \"get\",\r\n            \"zip\":false,\r\n            \"ondemand\":false,\r\n            \"description\": \"Input Revit model\",\r\n            \"required\": true,\r\n            \"localName\": \"<RevitFileName>.rvt\"\r\n          },\r\n          \"result\": {\r\n            \"zip\": false,\r\n            \"ondemand\": false,\r\n            \"verb\": \"put\",\r\n            \"description\": \"Results\",\r\n            \"required\": true,\r\n            \"localName\": \"result.rvt\"\r\n          }\r\n        },\r\n        \"engine\": \"Autodesk.Revit+2024\",\r\n        \"appbundles\": [ \"{{ClientIdNickname}}.{{BundleAppName}}+{{AppBundleAlias}}\" ],\r\n        \"description\": \"<Your Description Here>\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://developer.api.autodesk.com/da/us-east/v3/activities/{{ActivityName}}/versions",
+									"protocol": "https",
+									"host": [
+										"developer",
+										"api",
+										"autodesk",
+										"com"
+									],
+									"path": [
+										"da",
+										"us-east",
+										"v3",
+										"activities",
+										"{{ActivityName}}",
+										"versions"
+									]
+								},
+								"description": "Generated from cURL: curl -X POST  'https://developer.api.autodesk.com/da/us-east/v3/activities/DeleteWallsActivity/versions'  -H 'Content-Type: application/json'  -H 'Authorization: Bearer <YOUR_ACCESS_TOKEN>'  -d '{\r\n        \"id\": null,\r\n        \"commandLine\": [ \"$(engine.path)\\\\\\\\revitcoreconsole.exe /i \\\"$(args[rvtFile].path)\\\" /al \\\"$(appbundles[DeleteWallsApp].path)\\\"\" ],\r\n        \"parameters\": {\r\n          \"rvtFile\": {\r\n            \"verb\": \"get\",\r\n            \"zip\":false,\r\n            \"ondemand\":false,\r\n            \"description\": \"Input Revit model\",\r\n            \"required\": true,\r\n            \"localName\": \"input.rvt\"\r\n          },\r\n          \"result\": {\r\n            \"zip\": false,\r\n            \"ondemand\": false,\r\n            \"verb\": \"put\",\r\n            \"description\": \"Results\",\r\n            \"required\": true,\r\n            \"localName\": \"result.rvt\"\r\n          }\r\n        },\r\n        \"engine\": \"Autodesk.Revit+2018\",\r\n        \"appbundles\": [ \"<YOUR_NICKNAME>.DeleteWallsApp+test\" ],\r\n        \"description\": \"Delete walls from Revit file Updated.\"\r\n}'\r\n"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Bucket",
+					"item": [
+						{
+							"name": "Create a Bucket",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Check if the response is successful\r",
+											"if (pm.response.code === 200 || pm.response.code === 201) {\r",
+											"    try {\r",
+											"        // Parse the response JSON\r",
+											"        let responseJson = pm.response.json();\r",
+											"        \r",
+											"        // Extract the bucketKey\r",
+											"        if (responseJson.bucketKey) {\r",
+											"            // Set the bucketKey as an environment variable\r",
+											"            pm.environment.set(\"BucketKey\", responseJson.bucketKey);\r",
+											"            \r",
+											"            console.log(\"BucketKey extracted and set to environment variable:\");\r",
+											"            console.log(\"BucketKey =\", responseJson.bucketKey);\r",
+											"        } else {\r",
+											"            console.log(\"bucketKey not found in response body\");\r",
+											"        }\r",
+											"    } catch (error) {\r",
+											"        console.log(\"Error parsing response JSON:\", error);\r",
+											"    }\r",
+											"} else {\r",
+											"    console.log(\"Response was not successful. Status code:\", pm.response.code);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{2Leg Token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "x-ads-region",
+										"value": "US"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n            \"bucketKey\": \"<BucketName>\",\r\n            \"access\": \"full\",\r\n            \"policyKey\": \"transient\"\r\n        }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://developer.api.autodesk.com/oss/v2/buckets",
+									"protocol": "https",
+									"host": [
+										"developer",
+										"api",
+										"autodesk",
+										"com"
+									],
+									"path": [
+										"oss",
+										"v2",
+										"buckets"
+									]
+								},
+								"description": "Generated from cURL: curl -X POST  'https://developer.api.autodesk.com/oss/v2/buckets'  -H 'Authorization: Bearer YOUR_ACCESS_TOKEN'  -H 'Content-Type: application/json'  -H 'x-ads-region: US'  -d '{\r\n            \"bucketKey\": \"<YOUR_BUCKET_KEY>\",\r\n            \"access\": \"full\",\r\n            \"policyKey\": \"transient\"\r\n        }'\r\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Obtain Signed URL",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Get the current request URL\r",
+											"let requestUrl = pm.request.url.toString();\r",
+											"\r",
+											"console.log(\"Full URL:\", requestUrl);\r",
+											"\r",
+											"try {\r",
+											"    // Method 1: Using regex to extract the object name\r",
+											"    // Pattern matches: /objects/{anything}/signeds3upload\r",
+											"    let regex = /\\/objects\\/([^\\/]+)\\/signeds3upload/;\r",
+											"    let match = requestUrl.match(regex);\r",
+											"    \r",
+											"    if (match && match[1]) {\r",
+											"        let objectName = match[1];\r",
+											"        \r",
+											"        // Set the extracted object name as environment variable\r",
+											"        pm.environment.set(\"InputObjectName\", objectName);\r",
+											"        \r",
+											"        console.log(\"✅ Object name extracted and set to environment variable:\");\r",
+											"        console.log(\"InputObjectName =\", objectName);\r",
+											"    } else {\r",
+											"        console.log(\"❌ Could not extract object name from URL\");\r",
+											"        \r",
+											"        // Method 2: Alternative approach using URL splitting\r",
+											"        // Split by '/' and find the part between 'objects' and 'signeds3upload'\r",
+											"        let urlParts = requestUrl.split('/');\r",
+											"        let objectsIndex = urlParts.indexOf('objects');\r",
+											"        \r",
+											"        if (objectsIndex !== -1 && objectsIndex + 1 < urlParts.length) {\r",
+											"            let objectName = urlParts[objectsIndex + 1];\r",
+											"            \r",
+											"            // Make sure it's not 'signeds3upload'\r",
+											"            if (objectName !== 'signeds3upload') {\r",
+											"                pm.environment.set(\"InputObjectName\", objectName);\r",
+											"                console.log(\"✅ Object name extracted using fallback method:\");\r",
+											"                console.log(\"InputObjectName =\", objectName);\r",
+											"            } else {\r",
+											"                console.log(\"❌ Could not find valid object name in URL\");\r",
+											"            }\r",
+											"        }\r",
+											"    }\r",
+											"} catch (error) {\r",
+											"    console.log(\"❌ Error extracting object name from URL:\", error.message);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Check if the response is successful\r",
+											"if (pm.response.code >= 200 && pm.response.code < 300) {\r",
+											"    try {\r",
+											"        // Parse the response JSON\r",
+											"        let responseJson = pm.response.json();\r",
+											"        \r",
+											"        // Extract and set uploadKey\r",
+											"        if (responseJson.uploadKey) {\r",
+											"            pm.environment.set(\"SignedURLUploadKey\", responseJson.uploadKey);\r",
+											"            console.log(\"✅ SignedURLUploadKey extracted and set to environment variable\");\r",
+											"            console.log(\"SignedURLUploadKey =\", responseJson.uploadKey.substring(0, 50) + \"...\");\r",
+											"        } else {\r",
+											"            console.log(\"❌ uploadKey not found in response body\");\r",
+											"        }\r",
+											"        \r",
+											"        // Extract and set the first URL only\r",
+											"        if (responseJson.urls && Array.isArray(responseJson.urls) && responseJson.urls.length > 0) {\r",
+											"            // Set the first URL\r",
+											"            pm.environment.set(\"SignedUrl\", responseJson.urls[0]);\r",
+											"            console.log(\"✅ SignedUrl extracted and set to environment variable\");\r",
+											"            console.log(\"SignedUrl =\", responseJson.urls[0].substring(0, 80) + \"...\");\r",
+											"            console.log(\"Total URLs found:\", responseJson.urls.length, \"(using first one)\");\r",
+											"        } else {\r",
+											"            console.log(\"❌ urls array not found or empty in response body\");\r",
+											"        }\r",
+											"        \r",
+											"        // Optional: Also extract expiration dates for reference\r",
+											"        if (responseJson.uploadExpiration) {\r",
+											"            pm.environment.set(\"UploadExpiration\", responseJson.uploadExpiration);\r",
+											"            console.log(\"📅 Upload expires:\", responseJson.uploadExpiration);\r",
+											"        }\r",
+											"        \r",
+											"        if (responseJson.urlExpiration) {\r",
+											"            pm.environment.set(\"UrlExpiration\", responseJson.urlExpiration);\r",
+											"            console.log(\"📅 URL expires:\", responseJson.urlExpiration);\r",
+											"        }\r",
+											"        \r",
+											"    } catch (error) {\r",
+											"        console.log(\"❌ Error parsing response JSON:\", error.message);\r",
+											"    }\r",
+											"} else {\r",
+											"    console.log(\"❌ Request failed with status code:\", pm.response.code);\r",
+											"    console.log(\"Response text:\", pm.response.text());\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{2Leg Token}}"
+									}
+								],
+								"url": {
+									"raw": "https://developer.api.autodesk.com/oss/v2/buckets/{{BucketKey}}/objects/<YourObjectName>/signeds3upload",
+									"protocol": "https",
+									"host": [
+										"developer",
+										"api",
+										"autodesk",
+										"com"
+									],
+									"path": [
+										"oss",
+										"v2",
+										"buckets",
+										"{{BucketKey}}",
+										"objects",
+										"<YourObjectName>",
+										"signeds3upload"
+									]
+								},
+								"description": "Generated from cURL: curl -X GET  \"https://developer.api.autodesk.com/oss/v2/buckets/<YOUR_BUCKET_KEY>/objects/YOUR_OBJECT_KEY/signeds3upload\"\r\n     -H \"Authorization: Bearer nFRJxzCD8OOUr7hzBwbr06D76zAT\"\r\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Upload File",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/octet-stream",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "file",
+									"file": {
+										"src": "g4P1MJszu/racbasicsampleproject.rvt"
+									}
+								},
+								"url": {
+									"raw": "{{SignedUrl}}",
+									"host": [
+										"{{SignedUrl}}"
+									]
+								},
+								"description": "Generated from cURL: curl -X PUT  \"<SIGNED_UPLOAD_URL>\"\r\n     -H --data-binary '@<PATH_TO_FILE_TO_UPLOAD>/deleteWalls.rvt'\r\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Complete Upload",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Check if the response is successful\r",
+											"if (pm.response.code >= 200 && pm.response.code < 300) {\r",
+											"    try {\r",
+											"        // Parse the response JSON\r",
+											"        let responseJson = pm.response.json();\r",
+											"        \r",
+											"        // Extract and set objectId to URLRevitFile variable\r",
+											"        if (responseJson.objectId) {\r",
+											"            pm.environment.set(\"URLRevitFile\", responseJson.objectId);\r",
+											"            console.log(\"✅ URLRevitFile extracted and set to environment variable\");\r",
+											"            console.log(\"URLRevitFile =\", responseJson.objectId);\r",
+											"        } else {\r",
+											"            console.log(\"❌ objectId not found in response body\");\r",
+											"        }\r",
+											"        \r",
+											"    } catch (error) {\r",
+											"        console.log(\"❌ Error parsing response JSON:\", error.message);\r",
+											"    }\r",
+											"} else {\r",
+											"    console.log(\"❌ Request failed with status code:\", pm.response.code);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{2Leg Token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "text/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"uploadKey\": \"{{SignedURLUploadKey}}\"\r\n    }"
+								},
+								"url": {
+									"raw": "https://developer.api.autodesk.com/oss/v2/buckets/{{BucketKey}}/objects/{{InputObjectName}}/signeds3upload",
+									"protocol": "https",
+									"host": [
+										"developer",
+										"api",
+										"autodesk",
+										"com"
+									],
+									"path": [
+										"oss",
+										"v2",
+										"buckets",
+										"{{BucketKey}}",
+										"objects",
+										"{{InputObjectName}}",
+										"signeds3upload"
+									]
+								},
+								"description": "Generated from cURL: curl -X POST  \"https://developer.api.autodesk.com/oss/v2/buckets/<YOUR_BUCKET_KEY>/objects/<OBJECT_KEY_4_INPUT_FILE>/signeds3upload\"  -H \"Authorization: Bearer <YOUR_ACCESS_TOKEN>\"  -d '{\r\n            \"uploadKey\": \"<YOUR_UPLOAD_KEY>\"\r\n        }'\r\n"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Work Item",
+					"item": [
+						{
+							"name": "Create a Work Item",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Check if response body exists\r",
+											"if (pm.response.text()) {\r",
+											"    try {\r",
+											"        // Parse the response body JSON\r",
+											"        const responseBody = pm.response.json();\r",
+											"        \r",
+											"        // Check if 'id' exists in the response\r",
+											"        if (responseBody.id) {\r",
+											"            // Set the environment variable 'WorkItemId' with the value of 'id'\r",
+											"            pm.environment.set(\"WorkItemId\", responseBody.id);\r",
+											"            console.log(\"WorkItemId set to:\", responseBody.id);\r",
+											"        } else {\r",
+											"            console.log(\"The 'id' field does not exist in the response body\");\r",
+											"        }\r",
+											"    } catch (error) {\r",
+											"        console.log(\"Error parsing response body JSON:\", error.message);\r",
+											"    }\r",
+											"} else {\r",
+											"    console.log(\"No response body found\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{2Leg Token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \"activityId\": \"{{ClientIdNickname}}.{{ActivityName}}+{{ActivityAlias}}\",\r\n        \"arguments\": {\r\n          \"rvtFile\": {\r\n            \"url\": \"{{URLRevitFile}}\",\r\n              \"verb\": \"get\",\r\n              \"headers\": {\r\n                  \"Authorization\": \"Bearer {{2Leg Token}}\"\r\n              }\r\n          },\r\n          \"result\": {\r\n            \"url\": \"{{URLRevitFile}}Result\",\r\n                              \"verb\": \"put\",\r\n              \"headers\": {\r\n                  \"Authorization\": \"Bearer {{2Leg Token}}\"\r\n              }\r\n          }\r\n        }\r\n      }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://developer.api.autodesk.com/da/us-east/v3/workitems",
+									"protocol": "https",
+									"host": [
+										"developer",
+										"api",
+										"autodesk",
+										"com"
+									],
+									"path": [
+										"da",
+										"us-east",
+										"v3",
+										"workitems"
+									]
+								},
+								"description": "Generated from cURL: curl -X POST  'https://developer.api.autodesk.com/da/us-east/v3/workitems'  -H 'Content-Type: application/json'  -H 'Authorization: Bearer <YOUR_ACCESS_TOKEN>'  -d '{\r\n        \"activityId\": \"<YOUR_APP_NICKNAME>.DeleteWallsActivity+test\",\r\n        \"arguments\": {\r\n          \"rvtFile\": {\r\n            \"url\": \"urn:adsk.objects:os.object:<YOUR_BUCKET_KEY>/<OBJECT_KEY_4_INPUT_FILE>\",\r\n              \"verb\": \"get\",\r\n              \"headers\": {\r\n                  \"Authorization\": \"Bearer <YOUR_ACCESS_TOKEN>\"\r\n              }\r\n          },\r\n          \"result\": {\r\n            \"url\": \"urn:adsk.objects:os.object:<YOUR_BUCKET_KEY>/<RESULT_FILE_OBJECT_KEY>\",\r\n                              \"verb\": \"put\",\r\n              \"headers\": {\r\n                  \"Authorization\": \"Bearer <YOUR_ACCESS_TOKEN>\"\r\n              }\r\n          }\r\n        }\r\n      }'\r\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Check Status of a Work Item",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer  {{2Leg Token}}"
+									}
+								],
+								"url": {
+									"raw": "https://developer.api.autodesk.com/da/us-east/v3/workitems/{{WorkItemId}}",
+									"protocol": "https",
+									"host": [
+										"developer",
+										"api",
+										"autodesk",
+										"com"
+									],
+									"path": [
+										"da",
+										"us-east",
+										"v3",
+										"workitems",
+										"{{WorkItemId}}"
+									]
+								},
+								"description": "Generated from cURL: curl -X GET  'https://developer.api.autodesk.com/da/us-east/v3/workitems/YOUR_WORKITEM_ID'  -H 'Content-Type: application/json'  -H 'Authorization: Bearer <YOUR_ACCESS_TOKEN>'\r\n"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Download Results",
+					"item": [
+						{
+							"name": "Get Objects In Bucket",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{2Leg Token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://developer.api.autodesk.com/oss/v2/buckets/{{BucketKey}}/objects",
+									"protocol": "https",
+									"host": [
+										"developer",
+										"api",
+										"autodesk",
+										"com"
+									],
+									"path": [
+										"oss",
+										"v2",
+										"buckets",
+										"{{BucketKey}}",
+										"objects"
+									]
+								},
+								"description": "Generated from cURL: curl --location 'https://developer.api.autodesk.com/oss/v2/buckets/deletewindowsbucketkey/objects' \\\r\n--header 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IlZiakZvUzhQU3lYODQyMV95dndvRUdRdFJEa19SUzI1NiIsInBpLmF0bSI6ImFzc2MifQ...' \\\r\n--header 'Content-Type: application/json'"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Signed URL",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Check if the response is successful\r",
+											"if (pm.response.code >= 200 && pm.response.code < 300) {\r",
+											"    try {\r",
+											"        // Parse the response JSON\r",
+											"        let responseJson = pm.response.json();\r",
+											"        \r",
+											"        // Extract and set the download URL\r",
+											"        if (responseJson.url) {\r",
+											"            pm.environment.set(\"DownloadBucketItem\", responseJson.url);\r",
+											"            console.log(\"Download URL extracted and set to environment variable\");\r",
+											"            console.log(\"DownloadBucketItem =\", responseJson.url.substring(0, 100) + \"...\");\r",
+											"        } else {\r",
+											"            console.log(\"url not found in response body\");\r",
+											"        }\r",
+											"        \r",
+											"        // Optional: Also log the status and file size for reference\r",
+											"        if (responseJson.status) {\r",
+											"            console.log(\"Status:\", responseJson.status);\r",
+											"        }\r",
+											"        \r",
+											"        if (responseJson.size) {\r",
+											"            console.log(\"File size:\", responseJson.size, \"bytes\");\r",
+											"        }\r",
+											"        \r",
+											"    } catch (error) {\r",
+											"        console.log(\"Error parsing response JSON:\", error.message);\r",
+											"    }\r",
+											"} else {\r",
+											"    console.log(\"Request failed with status code:\", pm.response.code);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{2Leg Token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://developer.api.autodesk.com/oss/v2/buckets/{{BucketKey}}/objects/{{InputObjectName}}Result/signeds3download",
+									"protocol": "https",
+									"host": [
+										"developer",
+										"api",
+										"autodesk",
+										"com"
+									],
+									"path": [
+										"oss",
+										"v2",
+										"buckets",
+										"{{BucketKey}}",
+										"objects",
+										"{{InputObjectName}}Result",
+										"signeds3download"
+									]
+								},
+								"description": "Generated from cURL: curl -X GET  'https://developer.api.autodesk.com/oss/v2/buckets/<YOUR_BUCKET_KEY>/objects/<RESULT_FILE_OBJECT_KEY>/signeds3download'\r\n      - H 'Authorization: Bearer <YOUR_ACCESS_TOKEN>'  - H 'Content-Type: application/json'\r\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Download File",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DownloadBucketItem}}",
+									"host": [
+										"{{DownloadBucketItem}}"
+									]
+								},
+								"description": "Generated from cURL: curl -X GET  '<SIGNED_URL_TO_RESULT_FILE>'  -o 'SOME/PATH/ON/YOUR/COMPUTER/result.rvt'\r\n"
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}
